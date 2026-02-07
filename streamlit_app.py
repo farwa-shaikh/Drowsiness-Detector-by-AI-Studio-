@@ -85,22 +85,16 @@ if 'history' not in st.session_state:
 # Sidebar Configuration
 with st.sidebar:
     st.header("SYSTEM CONFIG")
-    
-    # API Key Management
-    api_key = os.environ.get("API_KEY")
-    if not api_key:
-        api_key = st.text_input("Enter Google API Key", type="password")
-        if not api_key:
-            st.warning("⚠️ API Key required")
-            st.stop()
-    else:
-        st.success("API Key Detected")
-
     st.markdown("---")
     st.markdown("**Model:** `gemini-3-flash-preview`")
     st.markdown("**Mode:** `Latency Optimized`")
 
 # Initialize Client
+api_key = os.environ.get("API_KEY")
+if not api_key:
+    st.error("System Error: API_KEY environment variable is missing.")
+    st.stop()
+
 client = genai.Client(api_key=api_key)
 
 # Main Layout
