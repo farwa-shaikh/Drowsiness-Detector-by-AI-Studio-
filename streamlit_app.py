@@ -1,7 +1,6 @@
 import streamlit as st
 import os
 import json
-import io
 from PIL import Image
 
 # Import the Google GenAI SDK
@@ -125,9 +124,6 @@ if img_file is not None:
     try:
         # Pre-process image
         image = Image.open(img_file)
-        img_byte_arr = io.BytesIO()
-        image.save(img_byte_arr, format='JPEG')
-        img_bytes = img_byte_arr.getvalue()
 
         # Prompt Engineering
         prompt = """
@@ -137,16 +133,11 @@ if img_file is not None:
         """
 
         with st.spinner("ANALYZING BIOMETRICS..."):
+            # Call Gemini API
+            # Note: The SDK automatically handles PIL Image objects in contents
             response = client.models.generate_content(
                 model='gemini-2.5-flash',
-                contents=[
-                    types.Content(
-                        parts=[
-                            types.Part.from_bytes(data=img_bytes, mime_type="image/jpeg"),
-                            types.Part.from_text(text=prompt)
-                        ]
-                    )
-                ],
+                contents=[image, prompt],
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
                     response_schema={
