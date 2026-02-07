@@ -1,0 +1,7 @@
+{
+  "name": "Sentinel Vision: Drowsiness Detector",
+  "description": "A high-precision drowsiness detection system leveraging advanced computer vision to monitor eye state and alertness levels in real-time. Uses Gemini Vision capabilities for high-accuracy analysis.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
