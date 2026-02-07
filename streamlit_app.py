@@ -9,7 +9,9 @@ try:
     from google import genai
     from google.genai import types
 except ImportError:
-    st.error("Please install the Google GenAI SDK: pip install google-genai")
+    st.error("Missing Dependencies. Please ensure `google-genai` is installed.")
+    st.info("If running locally: `pip install google-genai`")
+    st.info("If deploying to Streamlit Cloud: Ensure `requirements.txt` exists and contains `google-genai`.")
     st.stop()
 
 # Page Configuration
@@ -71,7 +73,7 @@ st.markdown("""
 col_header_1, col_header_2 = st.columns([3, 1])
 with col_header_1:
     st.title("Sentinel Vision")
-    st.caption("v1.1.0-beta | GEMINI VISION POWERED")
+    st.caption("v1.1.0-beta | GEMINI 3 FLASH VISION POWERED")
 with col_header_2:
     if st.button("Clear History"):
         st.session_state.history = []
@@ -95,7 +97,7 @@ with st.sidebar:
         st.success("API Key Detected")
 
     st.markdown("---")
-    st.markdown("**Model:** `gemini-2.5-flash`")
+    st.markdown("**Model:** `gemini-3-flash-preview`")
     st.markdown("**Mode:** `Latency Optimized`")
 
 # Initialize Client
@@ -136,7 +138,7 @@ if img_file is not None:
             # Call Gemini API
             # Note: The SDK automatically handles PIL Image objects in contents
             response = client.models.generate_content(
-                model='gemini-2.5-flash',
+                model='gemini-3-flash-preview',
                 contents=[image, prompt],
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
